@@ -22,12 +22,14 @@ import {
   signOut,
   onAuthStateChanged,
 } from "firebase/auth"
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 
 const provider = new GithubAuthProvider()
 
 
 function App() {
+
+  const [ user, setUser ] = useState(null)
 
   const authWithGithub = () => {
     const auth = getAuth();
@@ -74,8 +76,10 @@ function App() {
       console.log("onAuthStateChange", user);
       if (user) {
           // ...your code to handle authenticated users. 
+        setUser(user)
       } else {
           // No user is signed in...code to handle unauthenticated users. 
+        setUser(null)
       }
     })
 
@@ -104,24 +108,40 @@ function App() {
           </button>
         </nav>
 
-        <button onClick={logout1} className="outline">
+        {
+          !user
+          ? <button onClick={authWithGithub} className="outline">
+              <RiGithubFill />
+              <span>Authenticate with GitHub</span>
+            </button>
+          : <button onClick={logout1} className="outline">
           <RiLogoutBoxLine />
-          <span>Logout</span>
+          <span>{ `Logged in as ${user.reloadUserInfo.screenName}`}</span>
         </button>
+        }
 
-        <button onClick={authWithGithub} className="outline">
-          <RiGithubFill />
-          <span>Authenticate with GitHub</span>
-        </button>
+        
       </header>
 
       <main>
         <div className="preview-container">
           <div className="preview">
             <div className="user-data">
-              <div className="user-picture"></div>
-              <div className="user-name"></div>
+              {
+                user
+                ? <img className="user-picture" src={user.reloadUserInfo.photoUrl} />
+                : <div className="user-picture"></div>
+              }
+
+              {
+                user
+                ? <h1>{ user.reloadUserInfo.screenName }</h1>
+                : <div className="user-name"></div>
+              }
+
               <div className="user-description"></div>
+
+              
             </div>
 
             <div className="buttons">

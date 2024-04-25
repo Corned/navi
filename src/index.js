@@ -22,8 +22,8 @@ const analytics = getAnalytics(app);
 
 const db = getFirestore(app)
 
-const getLinks = async () => {
-  const linkCol = collection(db, "supported-links")
+/* const getLinks = async () => {
+  const linkCol = collection(db, "private-collection")
   const linkSnapshot = await getDocs(linkCol)
   const linkList = linkSnapshot.docs.map(doc => doc.data())
 
@@ -32,7 +32,7 @@ const getLinks = async () => {
 
 (async () => {
   await getLinks()
-})()
+})() */
 
 const root = ReactDOM.createRoot(document.getElementById("root"))
 root.render(
