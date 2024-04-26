@@ -19,8 +19,6 @@ import { setUser } from "../state/slice/userSlice"
 import { GithubAuthProvider, getAuth, signInWithPopup } from "firebase/auth"
 
 const SignInView = () => {
-  const { user } = useSelector((state) => state)
-
   const dispatch = useDispatch()
 
   const signInWithGithub = () => {

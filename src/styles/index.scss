@@ -7,7 +7,8 @@
 @import "components/container";
 @import "components/login";
 @import "components/logo";
-@import "components/view";
+
+@import "layout/view";
 
 .shadow {
   box-shadow: rgba(33, 35, 38, 0.1) 0px 10px 10px -10px;
