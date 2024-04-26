@@ -14,9 +14,53 @@ import {
 
 
 import View from "views/View"
+import { addLink, removeLink } from "state/slice/linksSlice"
+
+const LinkForm = ({ linkData }) => {
+
+  const dispatch = useDispatch()
+
+  const handleDelete = () => {
+    dispatch(removeLink(linkData.index))
+  }
+
+  const handleUpdate = () => {
+    dispatch()
+  }
+
+  return (
+    <div className="link-form">
+      <div className="link-form-header">
+        <p>
+          <RiDraggable/>
+          <span>Link #{ linkData.index }</span>
+        </p>
+
+        <button>remove</button>
+      </div>
+
+      <label for="link-platform">Platform</label>
+      <select id="link-platform" name="link-platform">
+        <option value="github">GitHub</option>
+        <option value="youtube">YouTube</option>
+        <option value="linkedin">LinkedIn</option>
+        <option value="reddit">Reddit</option>
+      </select>
+      <label for="link-link">Link</label>
+      <input name="link-link" defaultValue={linkData.url}></input>
+    </div>
+  )
+}
+
 
 const ProfileEditorView = () => {
   const user = useSelector((state) => state.user)
+  const links = useSelector((state) => state.links)
+  const dispatch = useDispatch()  
+
+  const handleNew = () => {
+    dispatch(addLink())
+  }
 
   return (
     <View className="profile-editor">
@@ -39,8 +83,6 @@ const ProfileEditorView = () => {
               }
 
               <div className="user-description"></div>
-
-              
             </div>
 
             <div className="buttons">
@@ -86,26 +128,14 @@ const ProfileEditorView = () => {
           <p>Add/edit/remove links below and then share all your profiles with the world!</p>
 
           <div className="link-form-container">
-            <button className="outline">
+            <button className="outline" onClick={handleNew}>
               <RiAddLine/>
               <span>Add new link</span>
             </button>
 
-            <div className="link-form">
-              <div className="link-form-header">
-                <p>
-                  <RiDraggable/>
-                  <span>Link #1</span>
-                </p>
-
-                <button>remove</button>
-              </div>
-
-              <label for="link-platform">Platform</label>
-              <input name="link-platform"></input>
-              <label for="link-link">Link</label>
-              <input name="link-link"></input>
-            </div>
+            {
+              links.map((linkData) => <LinkForm linkData={linkData} />)
+            }
 
           </div>
         </div>

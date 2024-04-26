@@ -55,20 +55,21 @@ main {
   }
 
   .preview-container {
-    display: flex;
-    flex-direction: row;
-    justify-content: center;
-    align-items: center;
 
     .preview {
-      aspect-ratio: 0.6;
+      grid-column: 2;
+      margin: 0 auto;
+
+      position: sticky;
+      top: 60px;
+
       min-width: 350px;
       border: 4px solid rgb(238, 238, 238);
       border-radius: 30px;
       padding: 20px;
 
       height: auto;
-      width: auto;
+      max-width: fit-content;
 
       display: flex;
       flex-direction: column;
@@ -197,7 +198,7 @@ main {
         font-weight: 500;
       }
 
-      input {
+      input, select {
         margin-bottom: 10px;
         border-radius: 6px;
         border: 1px solid darken($background-color, 40%);
@@ -214,4 +215,3 @@ main {
   }
 
 }
-

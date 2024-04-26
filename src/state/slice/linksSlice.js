@@ -1,5 +1,8 @@
 import { createSlice } from "@reduxjs/toolkit"
 
+const defaultService = "navi"
+const defaultUrl = "https://navi.tmp.ooo/"
+
 const initialState = []
 
 export const linkSlice = createSlice({
@@ -7,9 +10,20 @@ export const linkSlice = createSlice({
   initialState,
   reducers: {
     addLink: (state) => {
+      return [
+        ...state,
+        {
+          index: state.length,
+          service: defaultService,
+          url: defaultUrl,
+        }
+      ]
     },
     removeLink: (state) => {
       
+    },
+    updateLink: (state) => {
+
     }
   }
 })
