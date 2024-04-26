@@ -1,15 +1,30 @@
 import {
-  RiLink,
   RiLinksLine,
   RiProfileLine,
-  RiGithubFill,
   RiLogoutBoxLine
 } from "@remixicon/react"
 import Logo from "./Logo"
+import { useDispatch, useSelector } from "react-redux"
+
+import { getAuth } from "firebase/auth"
+import { signOut } from "firebase/auth"
+import { clearUser } from "state/slice/userSlice"
 
 
 
 const Header = () => {
+  const user = useSelector((state) => state.user)
+  const dispatch = useDispatch()
+
+  const handleSignOut = () => {
+    console.log("???");
+    const auth = getAuth()
+    signOut(auth)
+      .then(() => {
+        dispatch(clearUser())
+      })
+  }
+
   return (
     <header>
 
@@ -26,18 +41,11 @@ const Header = () => {
         </button>
       </nav>
 
-{/*       {
-        !user
-        ? <button onClick={authWithGithub} className="outline">
-            <RiGithubFill />
-            <span>Authenticate with GitHub</span>
-          </button>
-        : <button onClick={logout1} className="outline">
+      <button onClick={handleSignOut} className="outline">
         <RiLogoutBoxLine />
-        <span>{ `Logged in as ${user.reloadUserInfo.screenName}`}</span>
+        <span>{ `Logged in as ${user.screenName}`}</span>
       </button>
-      }
- */}
+
       
     </header>
   )

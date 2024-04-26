@@ -4,14 +4,13 @@ import App from "./App"
 import "styles/index.scss"
 
 // Import the functions you need from the SDKs you need
-import { initializeApp } from "firebase/app";
-import { getAnalytics } from "firebase/analytics";
-import { getFirestore, collection, getDocs } from "firebase/firestore/lite"
-// TODO: Add SDKs for Firebase products that you want to use
-// https://firebase.google.com/docs/web/setup#available-libraries
+import { initializeApp } from "firebase/app"
 
-// Your web app's Firebase configuration
-// For Firebase JS SDK v7.20.0 and later, measurementId is optional
+import { store } from "state/config/store"
+import { Provider } from "react-redux"
+import { RouterProvider, createBrowserRouter } from "react-router-dom"
+import SignInView from "views/SignIn"
+
 const firebaseConfig = {
   apiKey: process.env.REACT_APP_API_KEY,
   authDomain: process.env.REACT_APP_AUTH_DOMAIN,
@@ -20,31 +19,29 @@ const firebaseConfig = {
   messagingSenderId: process.env.REACT_APP_MESSAGING_SENDER_ID,
   appId: process.env.REACT_APP_APP_ID,
   measurementId: process.env.REACT_APP_MEASUREMENT_ID,
-};
-
-// Initialize Firebase
-const app = initializeApp(firebaseConfig);
-
-/*
-const analytics = getAnalytics(app);
-
-const db = getFirestore(app)
-
-const getLinks = async () => {
-  const linkCol = collection(db, "private-collection")
-  const linkSnapshot = await getDocs(linkCol)
-  const linkList = linkSnapshot.docs.map(doc => doc.data())
-
-  console.log(linkList);
 }
 
-(async () => {
-  await getLinks()
-})() */
+const app = initializeApp(firebaseConfig)
+
+
+
+const router = createBrowserRouter([
+  {
+    path: "/",
+    element: <App/>,
+  },
+
+  {
+    path: "/:user",
+    element: <p>for da user :3</p>
+  }
+])
 
 const root = ReactDOM.createRoot(document.getElementById("root"))
 root.render(
   <React.StrictMode>
-    <App />
+    <Provider store={store}>
+      <RouterProvider router={router} />
+    </Provider>
   </React.StrictMode>
 )
