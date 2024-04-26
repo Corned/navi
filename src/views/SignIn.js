@@ -31,7 +31,6 @@ const SignInView = () => {
         const credential = GithubAuthProvider.credentialFromResult(result);
         const token = credential.accessToken;
         const user = result.user;
-        console.log("logged in as ", user);
         const { displayName, photoURL } = user
         const { screenName } = user.reloadUserInfo
 
