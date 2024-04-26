@@ -180,7 +180,8 @@ const ProfileEditorView = () => {
                 links.map(({ index, service, url }) => {
                   const { icon, name, color } = platformData[service] || {
                     icon: <RiErrorWarningFill/>,
-                    name: "error",
+                    name: "no platform set",
+                    color: "rgb(200, 200, 200)",
                   }
 
                   return (
