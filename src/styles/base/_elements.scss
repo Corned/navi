@@ -13,7 +13,7 @@ p, span, button, input, label {
   color: $text-color;
 }
 
-html, body {
+html, body, #root, .App {
   height: 100%;
   background-color: $background-color;
 }

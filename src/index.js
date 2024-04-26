@@ -24,13 +24,13 @@ const firebaseConfig = {
 
 // Initialize Firebase
 const app = initializeApp(firebaseConfig);
+
+/*
 const analytics = getAnalytics(app);
 
 const db = getFirestore(app)
 
-console.log(process.env);
-
-/* const getLinks = async () => {
+const getLinks = async () => {
   const linkCol = collection(db, "private-collection")
   const linkSnapshot = await getDocs(linkCol)
   const linkList = linkSnapshot.docs.map(doc => doc.data())

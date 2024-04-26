@@ -1,0 +1,42 @@
+button {
+  background-color: transparent;
+  outline: none;
+  border: none;
+
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  border-radius: 6px;
+  gap: 6px;
+  font-weight: bold;
+  color: rgb(122, 122, 122);
+  padding: 10px 10px;
+  font-size: 16px;
+
+  &.outline {
+    color: rgb(91, 67, 203);
+    border: 1.5px solid rgb(91, 67, 203);
+
+    * {
+      color: rgb(91, 67, 203);
+    }
+  }
+
+  &.disabled {
+    cursor: not-allowed;
+    
+    * {
+      color: darken($background-color, 20%);
+    }
+  }
+
+  &:not(.disabled):hover {
+    cursor: pointer;
+    background-color: rgb(239, 237, 250);
+
+    * {
+      color: rgb(91, 67, 203);
+    }
+  }
+}

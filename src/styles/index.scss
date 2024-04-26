@@ -1,8 +1,17 @@
-@import "base/variables.scss";
-@import "base/global.scss";
-@import "base/elements.scss";
-@import "base/typography.scss";
+@import "base/variables";
+@import "base/global";
+@import "base/elements";
+@import "base/typography";
 
+@import "components/button";
+@import "components/container";
+@import "components/login";
+@import "components/logo";
+@import "components/view";
+
+.shadow {
+  box-shadow: rgba(33, 35, 38, 0.1) 0px 10px 10px -10px;
+}
 
 .App {
   display: flex;
@@ -20,18 +29,7 @@ header {
   justify-content: space-between;
 }
 
-.logo {
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  gap: 10px;
-  font-weight: bold;
-  font-size: 30px;
 
-  * {
-    color: $header-color;
-  }
-}
 
 
 nav {
@@ -40,39 +38,7 @@ nav {
   gap: 10px;
 }
 
-button {
-  background-color: transparent;
-  outline: none;
-  border: none;
 
-  display: flex;
-  flex-direction: row;
-  justify-content: center;
-  align-items: center;
-  border-radius: 6px;
-  gap: 6px;
-  font-weight: bold;
-  color: rgb(122, 122, 122);
-  padding: 10px 22px;
-  font-size: 16px;
-  cursor: pointer;
-
-  &.outline {
-    color: rgb(91, 67, 203);
-    border: 1.5px solid rgb(91, 67, 203);
-
-    * {
-      color: rgb(91, 67, 203);
-    }
-  }
-
-  &:hover {
-    background-color: rgb(239, 237, 250);
-    * {
-      color: rgb(91, 67, 203);
-    }
-  }
-}
 
 
 main {
