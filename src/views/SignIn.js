@@ -47,7 +47,7 @@ const SignInView = () => {
       <Container className="shadow login">
         <Logo size={50}/>
 
-        <p>The Guide to Your Links</p>
+        <p>The Guide for Your Links</p>
 
         <div className="divider">
           <div className="line"></div>
