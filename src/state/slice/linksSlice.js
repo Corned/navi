@@ -15,18 +15,24 @@ export const linkSlice = createSlice({
         {
           index: state.length,
           service: defaultService,
-          url: defaultUrl,
+          // url: defaultUrl,
         }
       ]
     },
     removeLink: (state) => {
       
     },
-    updateLink: (state) => {
+    updateLink: (state, action) => {
+      return state.map((link) => {
+        if (link.index !== action.payload.index) {
+          return link
+        }
 
+        return { ...link, ...action.payload }
+      })
     }
   }
 })
 
-export const { addLink, removeLink } = linkSlice.actions
+export const { addLink, removeLink, updateLink } = linkSlice.actions
 export default linkSlice.reducer
