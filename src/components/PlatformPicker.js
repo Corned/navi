@@ -68,7 +68,11 @@ const PlatformPicker = ({ selected, setSelected }) => {
 
   return (
     <div className="platform-picker" ref={pickerRef}>
-      <button className="platform-picker__open-button justify-left" onClick={setOpenState(true)}>
+      <button
+        className="platform-picker__open-button justify-left"
+        onClick={setOpenState(true)}
+        tabIndex={0}
+      >
         { 
           selected?.platform 
           ? platformData[selected.platform.toLowerCase()].icon 
