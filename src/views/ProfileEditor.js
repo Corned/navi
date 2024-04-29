@@ -56,13 +56,13 @@ const LinkForm = ({ linkData }) => {
         value={data.url}
         onChange={handleUrlInput}
         placeholder="Enter your URL here"
-        spellcheck="false"
+        spellCheck="false"
       />
       <input
         value={data.altLabel}
         onChange={handleAltLabelInput}
         placeholder="Alternate label for link button"
-        spellcheck="false"
+        spellCheck="false"
       />
 
     </div>
