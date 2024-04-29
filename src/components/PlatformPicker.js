@@ -69,8 +69,17 @@ const PlatformPicker = ({ selected, setSelected }) => {
   return (
     <div className="platform-picker" ref={pickerRef}>
       <button className="platform-picker__open-button justify-left" onClick={setOpenState(true)}>
-        { selected?.icon ? selected.icon : <RiShapesLine /> }
-        <span>{ selected?.platform ? selected.platform : "Select a Platform" }</span>
+        { 
+          selected?.platform 
+          ? platformData[selected.platform.toLowerCase()].icon 
+          : <RiShapesLine />
+        }
+        {
+          selected?.platform
+          ? <span>{ selected.platform }</span>
+          : <span>Select a Platform</span>
+        }
+        
         <RiArrowDropDownLine />
       </button>
 

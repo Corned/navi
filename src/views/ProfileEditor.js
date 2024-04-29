@@ -8,32 +8,58 @@ import {
 } from "@remixicon/react"
 
 
+
+
 import View from "views/View"
 import { addLink, removeLink, updateLink } from "state/slice/linksSlice"
 import platformData from "platformData"
 import PlatformPicker from "components/PlatformPicker"
-import { useState } from "react"
+import { useEffect, useState } from "react"
 
-const LinkForm = (linkData) => {
+const LinkForm = ({ linkData }) => {
+  const [ data, setData ] = useState(linkData)
+  const dispatch = useDispatch()
 
-  const [ data, setData ] = useState()
+  useEffect(() => {
+    dispatch(updateLink(data))
+  }, [ dispatch, data ])
 
-  const handleChange = (platformName) => {
-    setData(platformData[platformName.toLowerCase()])
+  const handlePlatformInput = (platformName) => {
+    setData({
+      ...data,
+      platform: platformName,
+    })
+  }
+
+  const handleUrlInput = (event) => {
+    setData({
+      ...data,
+      url: event.target.value,
+    })
+  }
+
+  const handleAltLabelInput = (event) => {
+    setData({
+      ...data,
+      altLabel: event.target.value,
+    })
   }
 
   return (
     <div className="link-form">
-      
       <div className="link-form__header">
         <h2>Link #1</h2>
       </div>
 
-      <PlatformPicker selected={data} setSelected={handleChange} />
+      <PlatformPicker selected={data} setSelected={handlePlatformInput} />
       <input
+        value={data.url}
+        onChange={handleUrlInput}
         placeholder="Enter your URL here"
       />
       <input
+        value={data.altLabel}
+        onChange={handleAltLabelInput}
         placeholder="Alternate label for link button"
       />
 
@@ -88,7 +114,11 @@ const ProfileEditorView = () => {
                       style={{ "backgroundColor": color }}
                     >
                       { icon }
-                      <span>{ platform }</span>
+                      {
+                        linkData?.altLabel
+                        ? <span>{ linkData.altLabel }</span>
+                        : <span>{ platform }</span>
+                      }
                       <RiArrowRightLine size={20}/>
                     </div>
                   )
