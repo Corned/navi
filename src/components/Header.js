@@ -26,7 +26,7 @@ const Header = () => {
   }
 
   return (
-    <header>
+    <header className="shadow">
 
       <Logo/>
 
