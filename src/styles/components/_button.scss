@@ -7,12 +7,25 @@ button {
   flex-direction: row;
   justify-content: center;
   align-items: center;
-  border-radius: 6px;
-  gap: 6px;
+  border-radius: $border-radius;
+  gap: 10px;
   font-weight: bold;
-  color: rgb(122, 122, 122);
+  color: $text-color;
   padding: 10px 10px;
   font-size: 16px;
+
+  * {
+    color: inherit;
+    text-decoration: inherit;
+  }
+
+  &.justify-left {
+    justify-content: left;
+  }
+
+  &.selected {
+    background-color: $background-color;
+  }
 
   &.outline {
     color: rgb(91, 67, 203);
@@ -25,18 +38,12 @@ button {
 
   &.disabled {
     cursor: not-allowed;
-    
-    * {
-      color: darken($background-color, 20%);
-    }
+    color: darken($background-color, 20%);
   }
 
   &:not(.disabled):hover {
     cursor: pointer;
     background-color: rgb(239, 237, 250);
-
-    * {
-      color: rgb(91, 67, 203);
-    }
+    color: rgb(91, 67, 203);
   }
 }

@@ -19,11 +19,16 @@ import {
   RiPlaystationFill,
   RiErrorWarningFill,
   RiMicrosoftFill,
+  RiQuestionMark,
+  RiListView,
+  RiGridFill,
 } from "@remixicon/react"
 
 
 import View from "views/View"
 import { addLink, removeLink, updateLink } from "state/slice/linksSlice"
+import { useEffect, useRef, useState } from "react"
+import classNames from "classnames"
 
 
 
@@ -92,51 +97,108 @@ const platformData = {
 }
 
 
+const CustomPlatformPicker = (props) => {
+  const [ selected, setSelected ] = useState(props.defaultValue)
+  const [ filter, setFilter ] = useState("")
+  const [ isOpen, setOpen ] = useState(false)
+  const [ isList, setList ] = useState(true)
 
+  const pickerRef = useRef(null)
 
-const LinkForm = ({ linkData }) => {
-  const dispatch = useDispatch()
+  useEffect(() => {
+    const clickEventHandler = (event) => {
+      if (!event.target) return
+      
+      const contains = pickerRef.current.contains(event.target)
+      if (contains) return
 
-  const { index } = linkData
+      setOpen(false)
+    }
 
-  const handleDelete = () => {
-    dispatch(removeLink(index))
+    if (pickerRef.current) {
+      document.addEventListener("click", clickEventHandler)
+    }
+
+    return () => {
+      document.removeEventListener("click", clickEventHandler)
+    }
+  }, [ pickerRef, isOpen ])
+
+  const setOpenState = (newState) => () => setOpen(newState)
+  const setListState = (newState) => () => setList(newState)
+  const handleFilter = (event) => {
+    setFilter(event.target.value)
   }
+  
+  const listButtonClasses = classNames({ "selected": isList })
+  const gridButtonClasses = classNames({ "selected": !isList })
+  const optionButtonClasses = classNames({ "justify-left": isList })
+  const optionClasses = classNames("platform-picker__options", {
+    "list": isList,
+    "grid": !isList,
+  })
 
-  const handleUpdate = (event) => {
-    dispatch(updateLink({ index, service: event.target.value }))
-  }
+  const filteredServices = Object.values(platformData)
+    .filter((serviceData) => {
+      return serviceData.name.toLowerCase()
+        .includes(filter.toLowerCase())
+    })
 
   return (
-    <div className="link-form">
-      <div className="link-form-header">
-        <p>
-          <RiDraggable/>
-          <span>Link #{ linkData.index }</span>
-        </p>
+    <div className="platform-picker" ref={pickerRef}>
+      <button onClick={setOpenState(true)}>
+        <RiQuestionMark />
+        <span>Select a service</span>
+      </button>
 
-        <button>remove</button>
-      </div>
+      {
+        isOpen && (
+          <div className="platform-picker__dropdown">
+            <div className="platform-picker__format">
+              <input
+                value={filter}
+                onChange={handleFilter}
+                placeholder="e.g. LinkedIn"
+              />
+              <button
+                className={listButtonClasses}
+                onClick={setListState(true)}
+              >
+                <RiListView />
+                <span>List</span>
+              </button>
+              <button
+                className={gridButtonClasses}
+                onClick={setListState(false)}
+              >
+                <RiGridFill />
+                <span>Grid</span>
+              </button>
+            </div>
 
-      <label for="link-platform">Platform</label>
-      <select
-        id="link-platform"
-        name="link-platform"
-        onChange={handleUpdate}
-      >
+            <div className="divider"></div>
 
-        {
+            <div className={optionClasses}>
+              {
+                filteredServices.map(({ name, icon, color }) => {
+                  return (
+                    <button
+                      className={optionButtonClasses}
+                      style={{ color }}
+                      onClick={() => setSelected(name)}
+                    >
+                      { icon }
+                      { isList && <span>{ name }</span> }
+                    </button>
+                  )
+                })
+              }
 
-          Object.keys(platformData).map((platform) => {
-            const { name } = platformData[platform]
-            return <option value={platform}>{ name } </option>
-          })
+            </div>
 
-        }
-
-      </select>
-      <label for="link-link">Link</label>
-      <input name="link-link" defaultValue={linkData.url}></input>
+          </div>
+        )
+      }
     </div>
   )
 }
@@ -196,6 +258,17 @@ const ProfileEditorView = () => {
                   )
                 })
               }
+
+              { links.length === 0 && (
+                <>
+                  <div className="link-button skeleton">
+                  </div>
+                  <div className="link-button skeleton">
+                  </div>
+                  <div className="link-button skeleton">
+                  </div>
+                </>
+              )}
             </div>
 
 
@@ -215,9 +288,11 @@ const ProfileEditorView = () => {
               <span>Add new link</span>
             </button>
 
-            {
+{/*             {
               links.map((linkData) => <LinkForm linkData={linkData} />)
-            }
+            } */}
+
+            <CustomPlatformPicker />
 
           </div>
         </div>

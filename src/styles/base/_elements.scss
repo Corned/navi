@@ -5,6 +5,17 @@
   line-height: 1.5;
 }
 
+/* Firefox */
+* {
+  scrollbar-width: auto;
+  scrollbar-color: #dcdcdc #ffffff;
+}
+
+*::-webkit-scrollbar-track {
+  background: #ffffff;
+}
+
+
 h1, h2, h3, h4 {
   color: $header-color;
 }
@@ -34,3 +45,4 @@ body::after {
   opacity: 0.3;
   background: repeating-linear-gradient( 45deg, $background-color, $background-color 20px, #e5e3ff 20px, #e5e3ff 100px );
 }
+
