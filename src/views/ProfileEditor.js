@@ -30,7 +30,12 @@ const LinkForm = (linkData) => {
       </div>
 
       <PlatformPicker selected={data} setSelected={handleChange} />
-      <input />
+      <input
+        placeholder="Enter your URL here"
+      />
+      <input
+        placeholder="Alternate label for link button"
+      />
 
     </div>
   )
