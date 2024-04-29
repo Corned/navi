@@ -103,6 +103,7 @@ const PlatformPicker = (props) => {
                       className={optionButtonClasses}
                       style={{ color }}
                       onClick={() => setSelected(platform)}
+                      key={ platform }
                     >
                       { icon }
                       { isList && <span>{ platform }</span> }
