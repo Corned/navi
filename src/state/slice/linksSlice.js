@@ -3,6 +3,11 @@ import { createSlice } from "@reduxjs/toolkit"
 import platformData from "platformData"
 
 const initialState = []
+const newLink = { 
+  ...Object.values(platformData)[0],
+  url: "",
+  altLabel: "",
+}
 
 export const linkSlice = createSlice({
   name: "links",
@@ -11,7 +16,7 @@ export const linkSlice = createSlice({
     addLink: (state) => {
       return [
         ...state,
-        { ...Object.values(platformData)[0] }
+        { ...newLink },
       ]
     },
     removeLink: (state) => {
