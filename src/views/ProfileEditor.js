@@ -12,6 +12,29 @@ import View from "views/View"
 import { addLink, removeLink, updateLink } from "state/slice/linksSlice"
 import platformData from "platformData"
 import PlatformPicker from "components/PlatformPicker"
+import { useState } from "react"
+
+const LinkForm = (linkData) => {
+
+  const [ data, setData ] = useState()
+
+  const handleChange = (platformName) => {
+    setData(platformData[platformName.toLowerCase()])
+  }
+
+  return (
+    <div className="link-form">
+      
+      <div className="link-form__header">
+        <h2>Link #1</h2>
+      </div>
+
+      <PlatformPicker selected={data} setSelected={handleChange} />
+      <input />
+
+    </div>
+  )
+}
 
 
 const ProfileEditorView = () => {
@@ -96,11 +119,10 @@ const ProfileEditorView = () => {
               <span>Add new link</span>
             </button>
 
-{/*             {
+            {
               links.map((linkData) => <LinkForm linkData={linkData} />)
-            } */}
+            }
 
-            <PlatformPicker />
 
           </div>
         </div>

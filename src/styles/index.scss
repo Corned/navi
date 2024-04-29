@@ -162,51 +162,24 @@ main {
     gap: 20px;
     margin-top: 30px;
 
-    .link-form {
-      background-color: $background-color;
-      padding: 10px 20px 20px 20px;
-      border-radius: $border-radius;
-
-      display: flex;
-      flex-direction: column;
-
-      .link-form-header {
-        display: flex;
-        flex-direction: row;
-        justify-content: space-between;
-
-        svg {
-          cursor: grab;
-        }
-
-        p {
-          display: flex;
-          flex-direction: row;
-          align-items: center;
-          gap: 10px;
-          font-weight: bold;
-        }
-      }
-
-      label {
-        color: darken($background-color, 40%);
-        font-weight: 500;
-      }
-
-      input, select {
-        margin-bottom: 10px;
-        border-radius: 6px;
-        border: 1px solid darken($background-color, 40%);
-        height: 40px;
-        padding: 0 20px;
-
-
-        &:last-child {
-          margin-bottom: 0;
-        }
-      }
-
-    }
+    
   }
 
+}
+
+
+.link-form {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  background-color: $background-color;
+  padding: 20px;
+  border-radius: $border-radius;
+  border: 1px solid rgba(0, 0, 0, 0.025);
+
+  input {
+    border-radius: $border-radius;
+    padding: 10px 10px 10px 20px;
+    border: 1px solid rgba(0, 0, 0, 0.075);
+  }
 }

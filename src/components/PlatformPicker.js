@@ -2,20 +2,25 @@ import { useState, useEffect, useRef } from "react"
 import classNames from "classnames"
 
 import {
-  RiQuestionMark,
   RiListView,
   RiGridFill,
+  RiShapesLine,
+  RiArrowDropDownLine,
 } from "@remixicon/react"
 
 import platformData from "platformData"
 
-const PlatformPicker = (props) => {
-  const [ selected, setSelected ] = useState(props.defaultValue)
+const PlatformPicker = ({ selected, setSelected }) => {
   const [ filter, setFilter ] = useState("")
   const [ isOpen, setOpen ] = useState(false)
   const [ isList, setList ] = useState(true)
 
   const pickerRef = useRef(null)
+
+  const handleSelection = (platformName) => {
+    setSelected(platformName)
+    setOpen(false)
+  }
 
   useEffect(() => {
     const clickEventHandler = (event) => {
@@ -63,9 +68,10 @@ const PlatformPicker = (props) => {
 
   return (
     <div className="platform-picker" ref={pickerRef}>
-      <button onClick={setOpenState(true)}>
-        <RiQuestionMark />
-        <span>Select a service</span>
+      <button className="platform-picker__open-button justify-left" onClick={setOpenState(true)}>
+        { selected?.icon ? selected.icon : <RiShapesLine /> }
+        <span>{ selected?.platform ? selected.platform : "Select a Platform" }</span>
+        <RiArrowDropDownLine />
       </button>
 
       {
@@ -102,7 +108,7 @@ const PlatformPicker = (props) => {
                     <button
                       className={optionButtonClasses}
                       style={{ color }}
-                      onClick={() => setSelected(platform)}
+                      onClick={() => handleSelection(platform)}
                       key={ platform }
                     >
                       { icon }

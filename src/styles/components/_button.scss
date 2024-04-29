@@ -21,6 +21,11 @@ button {
 
   &.justify-left {
     justify-content: left;
+    
+    span {
+      flex-grow: 2;
+      text-align: left;
+    }
   }
 
   &.selected {
