@@ -108,7 +108,7 @@ const CustomPlatformPicker = (props) => {
   useEffect(() => {
     const clickEventHandler = (event) => {
       if (!event.target) return
-      
+
       const contains = pickerRef.current.contains(event.target)
       if (contains) return
 
@@ -142,6 +142,11 @@ const CustomPlatformPicker = (props) => {
     .filter((serviceData) => {
       return serviceData.name.toLowerCase()
         .includes(filter.toLowerCase())
+    })
+    .sort((a, b) => {
+      if (a.name < b.name) return -1
+      if (a.name > b.name) return 1
+      return 0
     })
 
   return (
