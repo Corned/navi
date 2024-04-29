@@ -49,12 +49,10 @@ const ProfileEditorView = () => {
             <div className="buttons">
 
               {
-                links.map(({ index, service, url }) => {
-                  const { icon, name, color } = platformData[service] || {
-                    icon: <RiErrorWarningFill/>,
-                    name: "no platform set",
-                    color: "rgb(200, 200, 200)",
-                  }
+                links.map((linkData) => {
+                  const { icon, platform, color } = platformData[
+                    linkData.platform.toLowerCase()
+                  ]
 
                   return (
                     <div
@@ -62,7 +60,7 @@ const ProfileEditorView = () => {
                       style={{ "backgroundColor": color }}
                     >
                       { icon }
-                      <span>{ name }</span>
+                      <span>{ platform }</span>
                       <RiArrowRightLine size={20}/>
                     </div>
                   )

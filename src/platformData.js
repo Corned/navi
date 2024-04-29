@@ -15,62 +15,62 @@ import {
 
 const data = {
   "github": {
-    name: "GitHub",
+    platform: "GitHub",
     icon: <RiGithubFill />,
     color: "rgb(25, 25, 25)",
   },
   "gitlab": {
-    name: "GitLab",
+    platform: "GitLab",
     icon: <RiGitlabFill />,
     color: "#E2432A",
   },
   "youtube": {
-    name: "YouTube",
+    platform: "YouTube",
     icon: <RiYoutubeFill />,
     color: "rgb(239, 56, 58)",
   },
   "linkedin": {
-    name: "LinkedIn",
+    platform: "LinkedIn",
     icon: <RiLinkedinBoxFill />,
     color: "rgb(0, 119, 181)",
   },
   "reddit": {
-    name: "Reddit",
+    platform: "Reddit",
     icon: <RiRedditFill />,
     color: "#FF5700",
   },
   "discord": {
-    name: "Discord",
+    platform: "Discord",
     icon: <RiDiscordFill />,
     color: "#5865F2",
   },
   "paypal": {
-    name: "Paypal",
+    platform: "Paypal",
     icon: <RiPaypalFill />,
     color: "#00457C",
   },
   "twitch": {
-    name: "Twitch",
+    platform: "Twitch",
     icon: <RiTwitchFill />,
     color: "#6441a5",
   },
   "wordpress": {
-    name: "Wordpress",
+    platform: "Wordpress",
     icon: <RiWordpressFill />,
     color: "rgb(33, 117, 155)",
   },
   "xbox": {
-    name: "Xbox",
+    platform: "Xbox",
     icon: <RiXboxFill />,
     color: "#77bb44",
   },
   "playstation": {
-    name: "Playstation",
+    platform: "Playstation",
     icon: <RiPlaystationFill />,
     color: "#092f94",
   },
   "microsoft": {
-    name: "Microsoft",
+    platform: "Microsoft",
     icon: <RiMicrosoftFill />,
     color: "#F14F21",
   }

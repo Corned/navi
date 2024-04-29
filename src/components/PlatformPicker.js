@@ -52,12 +52,12 @@ const PlatformPicker = (props) => {
 
   const filteredServices = Object.values(platformData)
     .filter((serviceData) => {
-      return serviceData.name.toLowerCase()
+      return serviceData.platform.toLowerCase()
         .includes(filter.toLowerCase())
     })
     .sort((a, b) => {
-      if (a.name < b.name) return -1
-      if (a.name > b.name) return 1
+      if (a.platform < b.platform) return -1
+      if (a.platform > b.platform) return 1
       return 0
     })
 
@@ -97,15 +97,15 @@ const PlatformPicker = (props) => {
 
             <div className={optionClasses}>
               {
-                filteredServices.map(({ name, icon, color }) => {
+                filteredServices.map(({ platform, icon, color }) => {
                   return (
                     <button
                       className={optionButtonClasses}
                       style={{ color }}
-                      onClick={() => setSelected(name)}
+                      onClick={() => setSelected(platform)}
                     >
                       { icon }
-                      { isList && <span>{ name }</span> }
+                      { isList && <span>{ platform }</span> }
                     </button>
                   )
                 })

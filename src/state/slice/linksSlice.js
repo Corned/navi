@@ -1,7 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit"
 
-const defaultService = "navi"
-const defaultUrl = "https://navi.tmp.ooo/"
+import platformData from "platformData"
 
 const initialState = []
 
@@ -12,24 +11,14 @@ export const linkSlice = createSlice({
     addLink: (state) => {
       return [
         ...state,
-        {
-          index: state.length,
-          service: defaultService,
-          // url: defaultUrl,
-        }
+        { ...Object.values(platformData)[0] }
       ]
     },
     removeLink: (state) => {
       
     },
     updateLink: (state, action) => {
-      return state.map((link) => {
-        if (link.index !== action.payload.index) {
-          return link
-        }
 
-        return { ...link, ...action.payload }
-      })
     }
   }
 })
