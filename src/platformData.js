@@ -72,7 +72,7 @@ const data = {
   "microsoft": {
     platform: "Microsoft",
     icon: <RiMicrosoftFill />,
-    color: "#F14F21",
+    color: "rgb(3, 139, 204)",
   }
 }
 
