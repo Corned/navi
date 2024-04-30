@@ -16,12 +16,16 @@ const PlatformPicker = ({ selected, setSelected }) => {
   const [ isList, setList ] = useState(true)
 
   const pickerRef = useRef(null)
+  const filterRef = useRef(null)
 
   const handleSelection = (platformName) => {
     setSelected(platformName)
     setOpen(false)
   }
 
+  // Register event listener for clicking so
+  // you can close the menu by clicking outside
+  // of it.
   useEffect(() => {
     const clickEventHandler = (event) => {
       if (!event.target) return
@@ -40,6 +44,13 @@ const PlatformPicker = ({ selected, setSelected }) => {
       document.removeEventListener("click", clickEventHandler)
     }
   }, [ pickerRef, isOpen ])
+
+  // Focus on filter ref when isOpen changes
+  useEffect(() => {
+    if (filterRef.current) {
+      filterRef.current.focus()
+    }
+  }, [ isOpen ])
 
   const setOpenState = (newState) => () => setOpen(newState)
   const setListState = (newState) => () => setList(newState)
@@ -95,6 +106,7 @@ const PlatformPicker = ({ selected, setSelected }) => {
                 value={filter}
                 onChange={handleFilter}
                 placeholder="e.g. LinkedIn"
+                ref={filterRef}
               />
               <button
                 className={listButtonClasses}
