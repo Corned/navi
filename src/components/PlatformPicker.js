@@ -135,6 +135,7 @@ const PlatformPicker = ({ selected, setSelected }) => {
                       style={{ color }}
                       onClick={() => handleSelection(platform)}
                       key={ platform }
+                      tabIndex={0}
                     >
                       { icon }
                       { isList && <span>{ platform }</span> }
