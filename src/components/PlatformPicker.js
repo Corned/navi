@@ -17,6 +17,7 @@ const PlatformPicker = ({ selected, setSelected }) => {
 
   const pickerRef = useRef(null)
   const filterRef = useRef(null)
+  const dropdownRef = useRef(null)
 
   const handleSelection = (platformName) => {
     setSelected(platformName)
@@ -45,10 +46,24 @@ const PlatformPicker = ({ selected, setSelected }) => {
     }
   }, [ pickerRef, isOpen ])
 
-  // Focus on filter ref when isOpen changes
+  // Focus on filter ref when isOpen changes.
   useEffect(() => {
     if (filterRef.current) {
       filterRef.current.focus()
+    }
+  }, [ isOpen ])
+
+  // Move dropdownmenu up if it is outside of screen.
+  useEffect(() => {
+    if (dropdownRef.current) {
+      const a = dropdownRef.current.getBoundingClientRect().bottom
+      const b = window.innerHeight
+  
+      if (a > b) {
+        dropdownRef.current.style.top = `-${a-b + 20}px`
+      } else {
+        dropdownRef.current.style.top = `0px`
+      }
     }
   }, [ isOpen ])
 
@@ -100,7 +115,7 @@ const PlatformPicker = ({ selected, setSelected }) => {
 
       {
         isOpen && (
-          <div className="platform-picker__dropdown">
+          <div className="platform-picker__dropdown" ref={dropdownRef}>
             <div className="platform-picker__format">
               <input
                 value={filter}
