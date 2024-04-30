@@ -102,6 +102,7 @@ const LinkForm = ({ linkData }) => {
 const ProfileEditorView = () => {
   const user = useSelector((state) => state.user)
   const links = useSelector((state) => state.links)
+  const [ profileName, setProfileName ] = useState("")
   const dispatch = useDispatch()
 
   useEffect(() => {
@@ -109,7 +110,10 @@ const ProfileEditorView = () => {
       const docRef = doc(firebaseDb, "profiles", firebaseAuth.currentUser.uid)
       const docSnap = await getDoc(docRef)
       if (docSnap.exists()) {
-        dispatch(loadLinks(docSnap.data().links))
+        const { url, links } = docSnap.data()
+
+        dispatch(loadLinks(links))
+        setProfileName(url)
       }
     }
 
@@ -126,9 +130,13 @@ const ProfileEditorView = () => {
     const profilesRef = collection(db, "profiles")
 
     await setDoc(doc(profilesRef, auth.currentUser.uid), {
-      url: "corned",
+      url: profileName,
       links,
     })
+  }
+
+  const handleProfileNameInput = (event) => {
+    setProfileName(event.target.value)
   }
 
   return (
@@ -211,6 +219,15 @@ const ProfileEditorView = () => {
               <RiSave3Line/>
               <span>Save</span>
             </button>
+
+            <div className="profile-name__input">
+              <p>{ window.location.origin + "/" }</p>
+              <input
+                placeholder="profile_name"
+                onChange={handleProfileNameInput}
+                value={profileName}
+              />
+            </div>
 
             {
               links.map((linkData) =>
