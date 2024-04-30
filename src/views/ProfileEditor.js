@@ -5,6 +5,7 @@ import {
   RiArrowRightLine,
   RiAddLine,
   RiErrorWarningFill,
+  RiCloseCircleLine,
 } from "@remixicon/react"
 
 
@@ -17,6 +18,7 @@ import PlatformPicker from "components/PlatformPicker"
 import { useEffect, useState } from "react"
 
 const LinkForm = ({ linkData }) => {
+  console.log("LinkForms", linkData);
   const [ data, setData ] = useState(linkData)
   const dispatch = useDispatch()
 
@@ -45,10 +47,19 @@ const LinkForm = ({ linkData }) => {
     })
   }
 
+  const handleRemoval = (id) => {
+    dispatch(removeLink({ id }))
+  }
+
   return (
     <div className="link-form">
       <div className="link-form__header">
-        <h2>Link #1</h2>
+        <h2>Link for {data.id}</h2>
+
+        <button onClick={() => handleRemoval(data.id)}>
+          <RiCloseCircleLine />
+          <span>remove</span>
+        </button>
       </div>
 
       <PlatformPicker selected={data} setSelected={handlePlatformInput} />
@@ -157,7 +168,11 @@ const ProfileEditorView = () => {
             </button>
 
             {
-              links.map((linkData) => <LinkForm linkData={linkData} />)
+              links.map((linkData) =>
+              <LinkForm
+                linkData={linkData}
+                key={linkData.id}
+              />)
             }
 
 

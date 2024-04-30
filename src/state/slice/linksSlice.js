@@ -23,15 +23,25 @@ export const linkSlice = createSlice({
         },
       ]
     },
-    removeLink: (state) => {
-      
+    removeLink: (state, action) => {
+      console.log("removing", action.payload.id);
+      console.log(state);
+
+      const newState = state.filter((linkObject) => {
+        console.log(linkObject.id, action.payload.id, linkObject.id !== action.payload.id);
+        return linkObject.id !== action.payload.id
+      })
+
+      console.log(newState);
+
+      return newState
     },
     updateLink: (state, action) => {
       const newState = state.map((linkObject) => {
         if (linkObject.id !== action.payload.id) return linkObject
 
         return {
-          ...linkObject ,
+          ...linkObject,
           ...action.payload,
         }
       })
