@@ -6,10 +6,8 @@ import {
   RiAddLine,
   RiErrorWarningFill,
   RiCloseCircleLine,
+  RiSave3Line,
 } from "@remixicon/react"
-
-
-
 
 import View from "views/View"
 import { addLink, removeLink, updateLink } from "state/slice/linksSlice"
@@ -17,8 +15,27 @@ import platformData from "platformData"
 import PlatformPicker from "components/PlatformPicker"
 import { useEffect, useState } from "react"
 
+
+import { initializeApp } from "firebase/app"
+import { getFirestore, collection, doc, setDoc, getDoc, where} from "firebase/firestore"
+import { getAuth } from "firebase/auth"
+
+const app = initializeApp({
+  apiKey: process.env.REACT_APP_API_KEY,
+  authDomain: process.env.REACT_APP_AUTH_DOMAIN,
+  projectId: process.env.REACT_APP_PROJECT_ID,
+  storageBucket: process.env.REACT_APP_STORAGE_BUCKET,
+  messagingSenderId: process.env.REACT_APP_MESSAGING_SENDER_ID,
+  appId: process.env.REACT_APP_APP_ID,
+  measurementId: process.env.REACT_APP_MEASUREMENT_ID,
+})
+
+const db = getFirestore(app)
+
+
+
+
 const LinkForm = ({ linkData }) => {
-  console.log("LinkForms", linkData);
   const [ data, setData ] = useState(linkData)
   const dispatch = useDispatch()
 
@@ -88,6 +105,17 @@ const ProfileEditorView = () => {
 
   const handleNew = () => {
     dispatch(addLink())
+  }
+
+  const handleSave = async () => {
+    const auth = getAuth()
+
+    const profilesRef = collection(db, "profiles")
+
+    await setDoc(doc(profilesRef, auth.currentUser.uid), {
+      url: "corned",
+      links,
+    })
   }
 
   return (
@@ -165,6 +193,10 @@ const ProfileEditorView = () => {
             <button className="outline" onClick={handleNew}>
               <RiAddLine/>
               <span>Add new link</span>
+            </button>
+            <button className="outline" onClick={handleSave}>
+              <RiSave3Line/>
+              <span>Save</span>
             </button>
 
             {

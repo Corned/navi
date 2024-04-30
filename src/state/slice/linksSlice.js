@@ -24,15 +24,9 @@ export const linkSlice = createSlice({
       ]
     },
     removeLink: (state, action) => {
-      console.log("removing", action.payload.id);
-      console.log(state);
-
       const newState = state.filter((linkObject) => {
-        console.log(linkObject.id, action.payload.id, linkObject.id !== action.payload.id);
         return linkObject.id !== action.payload.id
       })
-
-      console.log(newState);
 
       return newState
     },
