@@ -8,8 +8,10 @@
 @import "components/login";
 @import "components/logo";
 @import "components/platform-picker";
+@import "components/link-button";
 
 @import "layout/view";
+@import "layout/profile";
 
 .shadow {
   box-shadow: rgba(33, 35, 38, 0.1) 0px 10px 10px -10px;

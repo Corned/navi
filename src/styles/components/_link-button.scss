@@ -1,0 +1,16 @@
+a.link-button {
+  padding: 20px;
+  border-radius: $border-radius;
+
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  gap: 10px;
+  color: white;
+
+
+  text-decoration: none;
+
+  * {
+    color: inherit;
+  }
+}
