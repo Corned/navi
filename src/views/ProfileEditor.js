@@ -54,7 +54,7 @@ const LinkForm = ({ linkData }) => {
   return (
     <div className="link-form">
       <div className="link-form__header">
-        <h2>Link for {data.id}</h2>
+        <h2>Link for {data.platform}</h2>
 
         <button onClick={() => handleRemoval(data.id)}>
           <RiCloseCircleLine />
