@@ -10,15 +10,16 @@ import {
 } from "@remixicon/react"
 
 import View from "views/View"
-import { addLink, removeLink, updateLink } from "state/slice/linksSlice"
+import { addLink, removeLink, updateLink, loadLinks} from "state/slice/linksSlice"
 import platformData from "platformData"
 import PlatformPicker from "components/PlatformPicker"
 import { useEffect, useState } from "react"
 
 
 import { initializeApp } from "firebase/app"
-import { getFirestore, collection, doc, setDoc, getDoc, where} from "firebase/firestore"
+import { getFirestore, collection, doc, setDoc, getDoc, where, query} from "firebase/firestore"
 import { getAuth } from "firebase/auth"
+import { firebaseAuth, firebaseDb } from "fb"
 
 const app = initializeApp({
   apiKey: process.env.REACT_APP_API_KEY,
@@ -101,7 +102,19 @@ const LinkForm = ({ linkData }) => {
 const ProfileEditorView = () => {
   const user = useSelector((state) => state.user)
   const links = useSelector((state) => state.links)
-  const dispatch = useDispatch()  
+  const dispatch = useDispatch()
+
+  useEffect(() => {
+    const getProfile = async () => {
+      const docRef = doc(firebaseDb, "profiles", firebaseAuth.currentUser.uid)
+      const docSnap = await getDoc(docRef)
+      if (docSnap.exists()) {
+        dispatch(loadLinks(docSnap.data().links))
+      }
+    }
+
+    getProfile()
+  }, [ ])
 
   const handleNew = () => {
     dispatch(addLink())

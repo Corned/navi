@@ -41,9 +41,12 @@ export const linkSlice = createSlice({
       })
 
       return newState
+    },
+    loadLinks: (state, action) => {
+      return action.payload
     }
   }
 })
 
-export const { addLink, removeLink, updateLink } = linkSlice.actions
+export const { addLink, removeLink, updateLink, loadLinks } = linkSlice.actions
 export default linkSlice.reducer
