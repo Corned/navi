@@ -186,17 +186,6 @@ const ProfileEditorView = () => {
                   )
                 })
               }
-
-              { links.length === 0 && (
-                <>
-                  <div className="link-button skeleton">
-                  </div>
-                  <div className="link-button skeleton">
-                  </div>
-                  <div className="link-button skeleton">
-                  </div>
-                </>
-              )}
             </div>
 
 
@@ -210,7 +199,7 @@ const ProfileEditorView = () => {
           <h1>Customize your links</h1>
           <p>Add/edit/remove links below and then share all your profiles with the world!</p>
 
-          <div className="link-form-container">
+          <div className="composer__actions">
             <button className="outline" onClick={handleNew}>
               <RiAddLine/>
               <span>Add new link</span>
@@ -219,15 +208,20 @@ const ProfileEditorView = () => {
               <RiSave3Line/>
               <span>Save</span>
             </button>
+          </div>
 
-            <div className="profile-name__input">
-              <p>{ window.location.origin + "/" }</p>
-              <input
-                placeholder="profile_name"
-                onChange={handleProfileNameInput}
-                value={profileName}
+          
+{/*           <h2>Select your name</h2>
+          <div className="profile-name__input">
+            <p>{ window.location.origin + "/" }</p>
+            <input
+              placeholder="profile_name"
+              onChange={handleProfileNameInput}
+              value={profileName}
               />
-            </div>
+          </div> */}
+
+          <div className="link-form-container">
 
             {
               links.map((linkData) =>

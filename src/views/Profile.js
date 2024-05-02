@@ -35,7 +35,9 @@ const ProfileView = () => {
 
   return (
     <View className="profile">
-      <div className="profile__links">
+      <div className="profile__links shadow">
+      <h1>Corned</h1>
+
       {
         profile.links.map((linkData) => {
           const { platform, url, altLabel } = linkData

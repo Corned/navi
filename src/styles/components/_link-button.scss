@@ -1,16 +1,37 @@
+@keyframes pointingArrow {
+  from { margin-right: 0px }
+  to { margin-right: 10px }
+}
+
 a.link-button {
   padding: 20px;
   border-radius: $border-radius;
 
   display: grid;
   grid-template-columns: auto 1fr auto;
+  align-items: center;
   gap: 10px;
   color: white;
+
+  font-size: 18px;
 
 
   text-decoration: none;
 
   * {
     color: inherit;
+    font-size: inherit;
+  }
+
+  &:hover {
+    :last-child {
+      
+      animation-name: pointingArrow;
+      animation-duration: 0.5s;
+      animation-iteration-count: infinite;
+      animation-direction: alternate;
+      animation-timing-function: ease-in-out;
+
+    }
   }
 }
