@@ -49,6 +49,7 @@ const ProfileEditorView = () => {
       links,
       name: profile.name,
       bio: profile.bio,
+      url: profile.url,
     })
   }
 
@@ -80,13 +81,15 @@ const ProfileEditorView = () => {
       {
         navState === "profile" && (
           <div className="profile-editor__profile card glass shadow">
-            <h1>Tell people about yourself</h1>
-            <p>Change your name and profile picture. Customize your personal Navi URL! Share an interesting fact about yourself. </p>
-            <div className="profile-editor__actions">
-              <button className="outline" onClick={handleSave}>
-                <RiSave3Line/>
-                <span>Save</span>
-              </button>
+            <div>
+              <h1>Tell people about yourself</h1>
+              <p>Change your name and profile picture. Customize your personal Navi URL! Share an interesting fact about yourself. </p>
+              <div className="profile-editor__actions">
+                <button className="outline" onClick={handleSave}>
+                  <RiSave3Line/>
+                  <span>Save</span>
+                </button>
+              </div>
             </div>
 
             <LabelInput
@@ -104,6 +107,7 @@ const ProfileEditorView = () => {
             <textarea
               onChange={handleBioChange}
               value={profile.bio}
+              maxLength={256}
             />
           </div>
         )
