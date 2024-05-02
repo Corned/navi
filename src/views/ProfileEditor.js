@@ -102,7 +102,7 @@ const LinkForm = ({ linkData }) => {
 const ProfileEditorView = () => {
   const user = useSelector((state) => state.user)
   const links = useSelector((state) => state.links)
-  const [ profileName, setProfileName ] = useState("")
+  const profile = useSelector((state) => state.profile)
   const dispatch = useDispatch()
 
   useEffect(() => {
@@ -113,7 +113,6 @@ const ProfileEditorView = () => {
         const { url, links } = docSnap.data()
 
         dispatch(loadLinks(links))
-        setProfileName(url)
       }
     }
 
@@ -130,13 +129,8 @@ const ProfileEditorView = () => {
     const profilesRef = collection(db, "profiles")
 
     await setDoc(doc(profilesRef, auth.currentUser.uid), {
-      url: profileName,
       links,
     })
-  }
-
-  const handleProfileNameInput = (event) => {
-    setProfileName(event.target.value)
   }
 
   return (
@@ -145,17 +139,24 @@ const ProfileEditorView = () => {
 
       <main>
         <div className="preview-container shadow">
+          <h1>Preview</h1>
           <div className="preview">
             <div className="user-data">
               {
-                user
-                ? <img className="user-picture" alt="icon" src={user.photoURL} />
-                : <div className="user-picture"></div>
+                profile.picture
+                ? (
+                  <img
+                    className="user-picture"
+                    alt="icon"
+                    src={profile.picture}
+                  />
+                )
+                : <div className="user-picture skeleton"></div>
               }
 
               {
-                user
-                ? <h1>{ user.screenName }</h1>
+                profile.name
+                ? <h1>{ profile.name }</h1>
                 : <div className="user-name"></div>
               }
 
