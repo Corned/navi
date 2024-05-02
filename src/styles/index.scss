@@ -10,6 +10,8 @@
 @import "components/platform-picker";
 @import "components/link-button";
 @import "components/profile";
+@import "components/editor";
+
 
 @import "layout/view";
 
@@ -17,64 +19,6 @@
   box-shadow: rgba(33, 35, 38, 0.1) 0px 10px 10px -10px;
   border: 1px solid rgba(0, 0, 0, 0.025)
 }
-
-.App {
-  display: flex;
-  flex-direction: column;
-  gap: 20px;
-}
-
-header {
-  background-color: $element-color;
-  padding: 10px 20px;
-  border-radius: $border-radius;
-
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
-}
-
-nav {
-  display: flex;
-  flex-direction: row;
-  gap: 10px;
-}
-
-main {
-  display: grid;
-  grid-template-columns: 2fr 3fr;
-  gap: 20px;
-  width: 100%;
-}
-
-.composer {
-  background-color: white;
-  border-radius: $border-radius;
-  padding: 20px;
-
-  .composer__actions {
-    display: flex;
-    flex-direction: row;
-    gap: 10px;
-    padding: 20px 0;
-
-    position: sticky;
-    top: 0px;
-
-    z-index: 10;
-    background-color: white;
-  }
-
-  .link-form-container {
-    display: flex;
-    flex-direction: column;
-    gap: 20px;
-
-    
-  }
-
-}
-
 
 .link-form {
   display: flex;

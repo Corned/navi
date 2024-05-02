@@ -4,8 +4,9 @@ import { getAuth } from "firebase/auth"
 import { useEffect } from "react"
 import { useDispatch, useSelector } from "react-redux"
 import { clearUser, setUser } from "state/slice/userSlice"
-import ProfileEditorView from "views/ProfileEditor"
 
+import EditorView from "components/Editor"
+import Main from "views/Main"
 import SignInView from "views/SignIn"
 
 function App() {
@@ -31,7 +32,7 @@ function App() {
 
       {
         user
-        ? <ProfileEditorView />
+        ? <Main />
         : <SignInView />
       }
 

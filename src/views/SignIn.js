@@ -44,7 +44,7 @@ const SignInView = () => {
 
   return (
     <View className="center">
-      <Container className="shadow login">
+      <Container className="card glass shadow login">
         <Logo size={50}/>
 
         <p>The Guide for Your Links</p>

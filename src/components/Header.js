@@ -25,19 +25,11 @@ const Header = () => {
   }
 
   return (
-    <header className="shadow">
-
+    <header className="card glass shadow">
       <Logo/>
 
       <nav>
-        <button>
-          <RiLinksLine size={20} />
-          <span>Links</span>
-        </button>
-        <button>
-          <RiProfileLine size={20} />
-          <span>Profile Details</span>
-        </button>
+
       </nav>
 
       <button onClick={handleSignOut} className="outline">
