@@ -5,9 +5,11 @@
   background-color: white;
   border-radius: $border-radius;
   border: 1px solid rgba(0, 0, 0, 0.075);
+  height: 50px;
 
   .platform-picker__open-button {
     width: inherit;
+    height: inherit;
   }
 }
 

@@ -1,0 +1,31 @@
+
+
+.label-input {
+  border-radius: $border-radius;
+  background-color: $background-color;
+  border: 1px solid rgba(0, 0, 0, 0.075);
+
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  height: 50px;
+
+  p {
+    padding: 0 10px 0 10px;
+  }
+
+  input {
+    flex-grow: 2;
+    border: none;
+    height: 100%;
+    padding: 0 0 0 10px;
+    font-size: 16px;
+    border-radius: inherit;
+
+    &:not(:first-child) {
+      border-top-left-radius: 0;
+      border-bottom-left-radius: 0;
+      border-left: 1px solid rgba(0, 0, 0, 0.075);
+    }
+  }
+}

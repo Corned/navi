@@ -5,6 +5,7 @@ import { RiCloseCircleLine } from "@remixicon/react"
 import { removeLink, updateLink } from "state/slice/linksSlice"
 import PlatformPicker from "components/PlatformPicker"
 import { useEffect, useState } from "react"
+import LabelInput from "./LabelInput"
 
 const LinkForm = ({ linkData }) => {
   const [ data, setData ] = useState(linkData)
@@ -51,13 +52,15 @@ const LinkForm = ({ linkData }) => {
       </div>
 
       <PlatformPicker selected={data} setSelected={handlePlatformInput} />
-      <input
+      <LabelInput
         value={data.url}
         onChange={handleUrlInput}
         placeholder="Enter your URL here"
         spellCheck="false"
+        label="https://"
       />
-      <input
+
+      <LabelInput
         value={data.altLabel}
         onChange={handleAltLabelInput}
         placeholder="Alternate label for link button"

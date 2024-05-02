@@ -34,7 +34,7 @@ button {
   }
 
   &.selected {
-    background-color: $background-color;
+    background-color: darken($background-color, 2%);
   }
 
   &.outline {
