@@ -6,35 +6,36 @@ import {
 
 import platformData from "platformData"
 
-const Profile = () => {
+const Profile = ({ userdata }) => {
   const profile = useSelector((state) => state.profile)
   const links = useSelector((state) => state.links)
 
-  console.log(profile);
+  const profileToView = userdata || profile
+  const linksToView = userdata?.links || links
 
   return (
     <div className="profile shadow">
         <div className="profile__user-data">
           {
-            profile.picture
+            profileToView.picture
             ? (
               <img
                 className="user-picture"
                 alt="icon"
-                src={profile.picture}
+                src={profileToView.picture}
               />
             )
             : <div className="user-picture skeleton"></div>
           }
 
           {
-            profile.name
-            ? <h1 className="user-name skeleton">{ profile.name }</h1>
+            profileToView.name
+            ? <h1 className="user-name skeleton">{ profileToView.name }</h1>
             : <div className="user-name skeleton"></div>
           }
 
           {
-            profile.bio
+            profileToView.bio
             ? <p className="profile__bio">{ profile.bio }</p>
             : <div className="profile__bio skeleton"></div>
           }
@@ -42,7 +43,7 @@ const Profile = () => {
 
         <div className="profile__links">
         {
-          links.map((linkData) => {
+          linksToView.map((linkData) => {
             const { platform, url, altLabel } = linkData
             const color = platformData[platform.toLowerCase()].color
 
