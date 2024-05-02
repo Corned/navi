@@ -20,6 +20,7 @@ import { initializeApp } from "firebase/app"
 import { getFirestore, collection, doc, setDoc, getDoc, where, query} from "firebase/firestore"
 import { getAuth } from "firebase/auth"
 import { firebaseAuth, firebaseDb } from "fb"
+import Profile from "components/Profile"
 
 const app = initializeApp({
   apiKey: process.env.REACT_APP_API_KEY,
@@ -134,66 +135,13 @@ const ProfileEditorView = () => {
   }
 
   return (
-    <View className="profile-editor">
+    <View className="profile-editor shadow">
       <Header />
 
       <main>
-        <div className="preview-container shadow">
-          <h1>Preview</h1>
-          <div className="preview">
-            <div className="user-data">
-              {
-                profile.picture
-                ? (
-                  <img
-                    className="user-picture"
-                    alt="icon"
-                    src={profile.picture}
-                  />
-                )
-                : <div className="user-picture skeleton"></div>
-              }
+        
 
-              {
-                profile.name
-                ? <h1>{ profile.name }</h1>
-                : <div className="user-name"></div>
-              }
-
-              <div className="user-description"></div>
-            </div>
-
-            <div className="buttons">
-
-              {
-                links.map((linkData) => {
-                  const { icon, platform, color } = platformData[
-                    linkData.platform.toLowerCase()
-                  ]
-
-                  return (
-                    <div
-                      className="link-button youtube"
-                      style={{ "backgroundColor": color }}
-                    >
-                      { icon }
-                      {
-                        linkData?.altLabel
-                        ? <span>{ linkData.altLabel }</span>
-                        : <span>{ platform }</span>
-                      }
-                      <RiArrowRightLine size={20}/>
-                    </div>
-                  )
-                })
-              }
-            </div>
-
-
-          </div>
-        </div>
-
-
+        <Profile />
 
 
         <div className="composer shadow">

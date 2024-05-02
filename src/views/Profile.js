@@ -7,11 +7,11 @@ import { collection, getDocs, query, where } from "firebase/firestore"
 
 import platformData from "platformData"
 import { RiArrowRightLine } from "@remixicon/react"
+import Profile from "components/Profile"
 
 const ProfileView = () => {
   const [ profile, setProfile ] = useState(null)
   const { params } = useMatch("/:profile")
-
   
   useEffect(() => {
     const getProfile = async () => {
@@ -34,31 +34,8 @@ const ProfileView = () => {
   }
 
   return (
-    <View className="profile">
-      <div className="profile__links shadow">
-      <h1>Corned</h1>
-
-      {
-        profile.links.map((linkData) => {
-          const { platform, url, altLabel } = linkData
-          const color = platformData[platform.toLowerCase()].color
-
-          return (
-            <a
-              className="link-button"
-              href={url}
-              rel="noreferrer"
-              target="_blank"
-              style={{ backgroundColor: color }}
-            >
-              { platformData[platform.toLowerCase()].icon }
-              <span>{ altLabel || platform }</span>
-              <RiArrowRightLine />
-            </a>
-          )
-        })
-      }
-      </div>
+    <View className="view-profile">
+      <Profile />
     </View>
   )
 }
