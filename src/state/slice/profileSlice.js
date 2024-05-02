@@ -10,7 +10,7 @@ export const profileSlice = createSlice({
   name: "profile",
   initialState,
   reducers: {
-    update: (state, action) => {
+    updateProfile: (state, action) => {
       return {
         ...state,
         ...action.payload,
@@ -19,5 +19,5 @@ export const profileSlice = createSlice({
   }
 })
 
-export const { update } = profileSlice.actions
+export const { updateProfile } = profileSlice.actions
 export default profileSlice.reducer

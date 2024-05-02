@@ -14,9 +14,6 @@
     gap: 10px;
   }
   
-  .profile-editor__links {
-  }
-
   .profile-editor__actions {
     display: flex;
     flex-direction: row;
@@ -29,5 +26,9 @@
     flex-direction: column;
     gap: 20px;
   }
+
+  .profile-editor__profile {
+  }
 }
+
 

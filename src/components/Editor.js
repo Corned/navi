@@ -11,12 +11,14 @@ import {
 
 import { firebaseAuth, firebaseDb } from "fb"
 import { addLink, loadLinks} from "state/slice/linksSlice"
+import { updateProfile } from "state/slice/profileSlice"
 
 import LinkForm from "./LinkForm"
 import LabelInput from "./LabelInput"
 
 const ProfileEditorView = () => {
   const links = useSelector((state) => state.links)
+  const profile = useSelector((state) => state.profile)
   const dispatch = useDispatch()
 
   const [ navState, setNavState ] = useState("profile")
@@ -26,8 +28,9 @@ const ProfileEditorView = () => {
       const docRef = doc(firebaseDb, "profiles", firebaseAuth.currentUser.uid)
       const docSnap = await getDoc(docRef)
       if (docSnap.exists()) {
-        const { links } = docSnap.data()
+        const { links, name, bio, url } = docSnap.data()
 
+        dispatch(updateProfile({ name, bio, url }))
         dispatch(loadLinks(links))
       }
     }
@@ -44,7 +47,21 @@ const ProfileEditorView = () => {
 
     await setDoc(doc(profilesRef, firebaseAuth.currentUser.uid), {
       links,
+      name: profile.name,
+      bio: profile.bio,
     })
+  }
+
+  const handleNameChange = (event) => {
+    dispatch(updateProfile({ name: event.target.value }))
+  }
+
+  const handleBioChange = (event) => {
+    dispatch(updateProfile({ bio: event.target.value }))
+  }
+
+  const handleUrlChange = (event) => {
+    dispatch(updateProfile({ url: event.target.value }))
   }
 
   return (
@@ -62,14 +79,31 @@ const ProfileEditorView = () => {
 
       {
         navState === "profile" && (
-          <div className="card glass shadow">
-            <h1>Choose Your Profile Name</h1>
+          <div className="profile-editor__profile card glass shadow">
+            <h1>Tell people about yourself</h1>
+            <p>Change your name and profile picture. Customize your personal Navi URL! Share an interesting fact about yourself. </p>
+            <div className="profile-editor__actions">
+              <button className="outline" onClick={handleSave}>
+                <RiSave3Line/>
+                <span>Save</span>
+              </button>
+            </div>
+
             <LabelInput
               label={`${window.location.origin}/`}
+              onChange={handleUrlChange}
+              value={profile.url}
             />
-            <h2>home page test</h2>
+
             <LabelInput
-              label={`https://`}
+              label="Display name"
+              onChange={handleNameChange}
+              value={profile.name}
+            />
+
+            <textarea
+              onChange={handleBioChange}
+              value={profile.bio}
             />
           </div>
         )

@@ -28,13 +28,13 @@ const Profile = ({ userdata }) => {
 
         {
           profileToView.name
-          ? <h1 className="user-name skeleton">{ profileToView.name }</h1>
+          ? <h1 className="user-name">{ profileToView.name }</h1>
           : <div className="user-name skeleton"></div>
         }
 
         {
           profileToView.bio
-          ? <p className="profile__bio">{ profile.bio }</p>
+          ? <p className="profile__bio">{ profileToView.bio }</p>
           : <div className="profile__bio skeleton"></div>
         }
       </div>

@@ -22,6 +22,8 @@ const ProfileView = () => {
       const [ doc ] = querySnapshot.docs
       
       setUserdata(doc.data())
+
+      console.log(doc.data());
     }
 
     getProfile()
