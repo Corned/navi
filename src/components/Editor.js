@@ -130,19 +130,22 @@ const ProfileEditorView = () => {
             <LabelInput
               label={`${window.location.origin}/`}
               onChange={handleUrlChange}
+              placeholder="Your unique URL"
               value={profile.url}
             />
 
             <LabelInput
               label="Display name"
               onChange={handleNameChange}
+              placeholder="You can call yourself anything!"
               value={profile.name}
             />
 
             <textarea
               onChange={handleBioChange}
               value={profile.bio}
-              maxLength={256}
+              placeholder="Tell about yourself in 1000 characters or less!"
+              maxLength={1000}
             />
           </div>
         )
