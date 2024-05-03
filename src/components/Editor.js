@@ -80,11 +80,8 @@ const ProfileEditorView = () => {
       listAll(profilePictureRef)
         .then((res) => {
           res.items.forEach((itemRef) => {
-            console.log(itemRef);
-
             getDownloadURL(itemRef)
             .then((url) => {
-              console.log(url);
               dispatch(updateProfile({ picture: url }))
             })
           })
@@ -100,28 +97,25 @@ const ProfileEditorView = () => {
   }
 
   const handleSave = async () => {
+    let url = null
 
     // handle profile picture upload
-    const blob = await fetch(profile.picture).then(r => r.blob());
-    const [ _, fileType  ] = blob.type.split("/")
-    const file = new File([ blob ], `pfp.${fileType}`, { type: fileType })
-    const filePath = `pfp/${firebaseAuth.currentUser.uid}/profile_picture.${fileType}`
+    try {
 
-
-    console.log("profile.picture", profile.picture);
-    console.log("blob", blob);
-    console.log("file", file);
-
-
-    const storage = getStorage()
-    const profilePictureRef = ref(storage, filePath)
-
-    const snapshot = await uploadBytes(profilePictureRef, file)
-
-    console.log(">", snapshot);
-
-    const url = await getDownloadURL(snapshot.ref)
-    console.log(url);
+      const blob = await fetch(profile.picture).then(r => r.blob());
+      const [ _, fileType  ] = blob.type.split("/")
+      const file = new File([ blob ], `pfp.${fileType}`, { type: fileType })
+      const filePath = `pfp/${firebaseAuth.currentUser.uid}/profile_picture.${fileType}`
+      
+      const storage = getStorage()
+      const profilePictureRef = ref(storage, filePath)
+      
+      const snapshot = await uploadBytes(profilePictureRef, file)
+      url = await getDownloadURL(snapshot.ref)
+    } catch (e) {
+      // user is NOT changing profile picture
+      console.log(e.message);
+    }
   
 
     const batch = writeBatch(firebaseDb)
@@ -138,7 +132,7 @@ const ProfileEditorView = () => {
       name: profile.name,
       bio: profile.bio,
       url: profile.url,
-      picture: url,
+      picture: url || profile.picture,
       uid: firebaseAuth.currentUser.uid,
     })
 

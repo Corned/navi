@@ -23,7 +23,7 @@ const ProfileView = () => {
   const { params } = useMatch("/:profileUrl")
   const dispatch = useDispatch()
 
-  
+  // Clean this
   useEffect(() => {
     const getProfile = async () => {
       const docRef = doc(firebaseDb, "profiles", params.profileUrl)
@@ -39,9 +39,7 @@ const ProfileView = () => {
   
       listAll(profilePictureRef)
         .then((res) => {
-          res.items.forEach((itemRef) => {
-            console.log(itemRef);
-  
+          res.items.forEach((itemRef) => {  
             getDownloadURL(itemRef)
             .then((url) => {
               dispatch(updateProfile({ picture: url }))
