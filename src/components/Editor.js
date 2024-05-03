@@ -166,11 +166,11 @@ const ProfileEditorView = () => {
   return (
     <div className="profile-editor">
       <div className="profile-editor__nav card glass shadow">
-        <button className="selected" onClick={() => setNavState("profile")}>
+        <button className={navState === "profile" && "selected"} onClick={() => setNavState("profile")}>
           <RiProfileLine size={20} />
           <span>Profile Details</span>
         </button>
-        <button onClick={() => setNavState("links")}>
+        <button className={navState === "links" && "selected"} onClick={() => setNavState("links")}>
           <RiLinksLine size={20} />
           <span>Links</span>
         </button>
