@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react"
 import { useDispatch, useSelector } from "react-redux"
-import { collection, doc, setDoc, getDoc } from "firebase/firestore"
+import { collection, doc, setDoc, getDoc, query, where, getDocs, writeBatch } from "firebase/firestore"
 
 import {
   RiAddLine,
@@ -19,17 +19,33 @@ import LabelInput from "./LabelInput"
 const ProfileEditorView = () => {
   const links = useSelector((state) => state.links)
   const profile = useSelector((state) => state.profile)
-  const dispatch = useDispatch()
 
+  // Used to navigate between the "profile details"
+  // and the "links" pages.
   const [ navState, setNavState ] = useState("profile")
 
-  useEffect(() => {
-    const getProfile = async () => {
-      const docRef = doc(firebaseDb, "profiles", firebaseAuth.currentUser.uid)
-      const docSnap = await getDoc(docRef)
-      if (docSnap.exists()) {
-        const { links, name, bio, url } = docSnap.data()
+  // State for detecting if user wants to change their
+  // profile url.
+  const [ originalProfileUrl, setOriginalProfileUrl ] = useState(null)
 
+  
+  const dispatch = useDispatch()
+
+  useEffect(() => {
+    // Load user's profile based on uid
+    const getProfile = async () => {
+      const q = query(
+        collection(firebaseDb, "profiles"),
+        where("uid", "==", firebaseAuth.currentUser.uid)
+      )
+
+      const querySnapshot = await getDocs(q)
+      const [ doc ] = querySnapshot.docs
+      
+      if (doc.exists()) {
+        const { links, name, bio, url } = doc.data()
+
+        setOriginalProfileUrl(url)
         dispatch(updateProfile({ name, bio, url }))
         dispatch(loadLinks(links))
       }
@@ -43,14 +59,31 @@ const ProfileEditorView = () => {
   }
 
   const handleSave = async () => {
-    const profilesRef = collection(firebaseDb, "profiles")
+    const batch = writeBatch(firebaseDb)
 
-    await setDoc(doc(profilesRef, firebaseAuth.currentUser.uid), {
+    // User wants to change profile url, delete old
+    // document.
+    if (originalProfileUrl !== profile.url) {
+      const oldRef = doc(firebaseDb, "profiles", originalProfileUrl)
+      batch.delete(oldRef)
+    }
+
+    const newRef = doc(firebaseDb, "profiles", profile.url)
+    batch.set(newRef, {
       links,
       name: profile.name,
       bio: profile.bio,
       url: profile.url,
+      uid: firebaseAuth.currentUser.uid,
     })
+
+    // Batch commit will fail if user tries to update
+    // profile url to existing one.
+    try {
+      await batch.commit()
+    } catch (error) {
+      console.log(error.message);
+    }
   }
 
   const handleNameChange = (event) => {
@@ -78,9 +111,11 @@ const ProfileEditorView = () => {
         </button>
       </div>
 
+      
       {
         navState === "profile" && (
           <div className="profile-editor__profile card glass shadow">
+
             <div>
               <h1>Tell people about yourself</h1>
               <p>Change your name and profile picture. Customize your personal Navi URL! Share an interesting fact about yourself. </p>
