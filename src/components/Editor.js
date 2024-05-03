@@ -15,6 +15,7 @@ import { updateProfile } from "state/slice/profileSlice"
 
 import LinkForm from "./LinkForm"
 import LabelInput from "./LabelInput"
+import FileInput from "./FileInput"
 
 const ProfileEditorView = () => {
   const links = useSelector((state) => state.links)
@@ -126,6 +127,8 @@ const ProfileEditorView = () => {
                 </button>
               </div>
             </div>
+
+            <FileInput />
 
             <LabelInput
               label={`${window.location.origin}/`}

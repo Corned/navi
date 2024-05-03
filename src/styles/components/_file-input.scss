@@ -1,0 +1,53 @@
+.file-input {
+  background-color: $background-color;
+  border-radius: $border-radius;
+  padding: 20px;
+
+  display: flex;
+  flex-direction: row;
+  gap: 20px;
+
+  border: 1px solid rgba(0, 0, 0, 0.025);
+  cursor: pointer;
+
+  align-items: stretch;
+
+  input {
+    border: 1px solid red;
+    flex-grow: 2;
+    height: 100%;
+
+    display: none;
+  }
+
+  img {
+    width: auto;
+    height: 120px;
+
+    aspect-ratio: 1;
+    object-fit: cover;
+    border-radius: 1000px;
+    
+    background-color: rgba(0, 0, 0, 0.075);
+  }
+
+  .file-input__helper {
+    background-color: white;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    border-radius: $border-radius;
+    justify-content: center;
+    
+    flex-grow: 2;
+    border: 2px dashed rgba(0, 0, 0, 0.1);
+    gap: 5px;
+    padding: 10px;
+
+    span {
+      text-decoration: underline;
+      font-weight: bold;
+      color: rgb(91, 67, 203);
+    }
+  }
+}
