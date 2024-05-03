@@ -1,30 +1,31 @@
 import { useState } from "react"
 import { RiFileImageLine, RiUpload2Line } from "@remixicon/react"
 
-const FileInput = () => {
-  const [ file, setFile ] = useState(null)
-  
-  const handleChange = (event) => {
-    const [ newFile ] = event.target.files
+const FileInput = ({ value, setValue }) => {
+  const [ fileName, setFileName ] = useState(null)
 
-    console.log(newFile);
-    setFile(newFile)
+  const handleFile = (file) => {
+    const objectUrl = URL.createObjectURL(file)
+    console.log(file, "->", objectUrl)
+    setFileName(file.name)
+    setValue(objectUrl)
+  }
+
+  const handleChange = (event) => {
+    const [ file ] = event.target.files
+    handleFile(file)
   }
 
   const dropHandler = (event) => {
     event.preventDefault()
     console.log("Dropped a file into the file zone!");
     const [ item ] = [ ...event.dataTransfer.items ]
-    const newFile = item.getAsFile()
-    setFile(newFile)
-
-    console.log(newFile);
+    const file = item.getAsFile()
+    handleFile(file)
   }
   
   const dragOverHandler = (event) => {
-    event.preventDefault()
-    console.log("Hovering over the file zone!");
-    
+    event.preventDefault()    
   }
 
   return (
@@ -36,19 +37,19 @@ const FileInput = () => {
     >
       <img
         alt=""
-        src={file && URL.createObjectURL(file)}
+        src={value}
       />
 
       <div className="file-input__helper">
 
         {
-          !file ? (
+          !fileName ? (
             <>
               <RiUpload2Line size={32}/>
               <p>Drag and Drop your picture here or <span>browse files</span></p>
             </>
           ) : (
-            <p>{file.name}</p>
+            <p>{fileName}</p>
           )
         }
 

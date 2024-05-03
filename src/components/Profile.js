@@ -10,7 +10,7 @@ const Profile = ({ userdata }) => {
 
   const profileToView = userdata || profile
   const linksToView = userdata?.links || links
-
+  
   return (
     <div className="profile card glass shadow">
       <div className="profile__user-data">

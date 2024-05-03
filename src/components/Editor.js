@@ -1,6 +1,23 @@
 import { useEffect, useState } from "react"
 import { useDispatch, useSelector } from "react-redux"
-import { collection, doc, setDoc, getDoc, query, where, getDocs, writeBatch } from "firebase/firestore"
+import {
+  collection,
+  doc,
+  setDoc,
+  getDoc,
+  query,
+  where,
+  getDocs,
+  writeBatch,
+} from "firebase/firestore"
+
+import {
+  getDownloadURL,
+  getStorage,
+  listAll,
+  ref,
+  uploadBytes,
+} from "firebase/storage"
 
 import {
   RiAddLine,
@@ -52,7 +69,30 @@ const ProfileEditorView = () => {
       }
     }
 
+    // Refactor
+    const getProfilePicture = () => {
+      const storage = getStorage()
+      const profilePictureRef = ref(
+        storage,
+        `pfp/${firebaseAuth.currentUser.uid}`
+      )
+
+      listAll(profilePictureRef)
+        .then((res) => {
+          res.items.forEach((itemRef) => {
+            console.log(itemRef);
+
+            getDownloadURL(itemRef)
+            .then((url) => {
+              console.log(url);
+              dispatch(updateProfile({ picture: url }))
+            })
+          })
+        })
+    }
+
     getProfile()
+    getProfilePicture()
   }, [ ])
 
   const handleNew = () => {
@@ -60,8 +100,31 @@ const ProfileEditorView = () => {
   }
 
   const handleSave = async () => {
-    const batch = writeBatch(firebaseDb)
 
+    // handle profile picture upload
+    const blob = await fetch(profile.picture).then(r => r.blob());
+    const [ _, fileType  ] = blob.type.split("/")
+    const file = new File([ blob ], `pfp.${fileType}`, { type: fileType })
+    const filePath = `pfp/${firebaseAuth.currentUser.uid}/profile_picture.${fileType}`
+
+
+    console.log("profile.picture", profile.picture);
+    console.log("blob", blob);
+    console.log("file", file);
+
+
+    const storage = getStorage()
+    const profilePictureRef = ref(storage, filePath)
+
+    const snapshot = await uploadBytes(profilePictureRef, file)
+
+    console.log(">", snapshot);
+
+    const url = await getDownloadURL(snapshot.ref)
+    console.log(url);
+  
+
+    const batch = writeBatch(firebaseDb)
     // User wants to change profile url, delete old
     // document.
     if (originalProfileUrl !== profile.url) {
@@ -75,6 +138,7 @@ const ProfileEditorView = () => {
       name: profile.name,
       bio: profile.bio,
       url: profile.url,
+      picture: url,
       uid: firebaseAuth.currentUser.uid,
     })
 
@@ -85,6 +149,8 @@ const ProfileEditorView = () => {
     } catch (error) {
       console.log(error.message);
     }
+
+
   }
 
   const handleNameChange = (event) => {
@@ -97,6 +163,10 @@ const ProfileEditorView = () => {
 
   const handleUrlChange = (event) => {
     dispatch(updateProfile({ url: event.target.value }))
+  }
+
+  const handleProfilePictureChange = (file) => {
+    dispatch(updateProfile({ picture: file }))
   }
 
   return (
@@ -128,7 +198,10 @@ const ProfileEditorView = () => {
               </div>
             </div>
 
-            <FileInput />
+            <FileInput
+              value={profile.picture}
+              setValue={handleProfilePictureChange}
+            />
 
             <LabelInput
               label={`${window.location.origin}/`}
