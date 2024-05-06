@@ -44,7 +44,7 @@ const ProfileEditorView = () => {
 
   // State for detecting if user wants to change their
   // profile url.
-  const [ originalProfileUrl, setOriginalProfileUrl ] = useState(null)
+  const [ originalProfileUrl, setOriginalProfileUrl ] = useState("")
 
   
   const dispatch = useDispatch()
@@ -60,7 +60,8 @@ const ProfileEditorView = () => {
       const querySnapshot = await getDocs(q)
       const [ doc ] = querySnapshot.docs
       
-      if (doc.exists()) {
+      //! Doc may not exist 😱
+      if (doc?.exists()) {
         const { links, name, bio, url } = doc.data()
 
         setOriginalProfileUrl(url)
@@ -99,6 +100,8 @@ const ProfileEditorView = () => {
   const handleSave = async () => {
     let url = null
 
+    console.log(2);
+
     // handle profile picture upload
     try {
 
@@ -114,27 +117,60 @@ const ProfileEditorView = () => {
       url = await getDownloadURL(snapshot.ref)
     } catch (e) {
       // user is NOT changing profile picture
-      console.log(e.message);
+      console.log("User not changing pfp", e.message);
     }
   
+    console.log(2);
 
     const batch = writeBatch(firebaseDb)
-    // User wants to change profile url, delete old
-    // document.
-    if (originalProfileUrl !== profile.url) {
-      const oldRef = doc(firebaseDb, "profiles", originalProfileUrl)
-      batch.delete(oldRef)
+
+    console.log(3);
+
+    // Check if user already has profile.
+    // If profile exists, check if url has changed.
+    // If it has, delete.
+      console.log("is this a thing");
+      const q = query(
+        collection(firebaseDb, "profiles"),
+        where("uid", "==", firebaseAuth.currentUser.uid)
+      )
+  
+      const querySnapshot = await getDocs(q)
+      const [ existingDoc ] = querySnapshot.docs
+    
+      if (existingDoc?.exists()) {        
+        const { url } = existingDoc.data()
+        if (url && url !== profile.url) {
+          console.log(4, originalProfileUrl);
+          batch.delete(doc(firebaseDb, "profiles", url))
+          console.log("batch delete", originalProfileUrl);
+        }
+      }
+
+
+    if (profile.url) {
+      console.log(5);
+  
+      console.log({
+        links,
+        name: profile.name,
+        bio: profile.bio,
+        url: profile.url,
+        picture: url || profile.picture,
+        uid: firebaseAuth.currentUser.uid,
+      });
+  
+      const newRef = doc(firebaseDb, "profiles", profile.url)
+      batch.set(newRef, {
+        links,
+        name: profile.name,
+        bio: profile.bio,
+        url: profile.url,
+        picture: url || profile.picture,
+        uid: firebaseAuth.currentUser.uid,
+      })
     }
 
-    const newRef = doc(firebaseDb, "profiles", profile.url)
-    batch.set(newRef, {
-      links,
-      name: profile.name,
-      bio: profile.bio,
-      url: profile.url,
-      picture: url || profile.picture,
-      uid: firebaseAuth.currentUser.uid,
-    })
 
     // Batch commit will fail if user tries to update
     // profile url to existing one.
