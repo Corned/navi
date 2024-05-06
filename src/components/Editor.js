@@ -39,6 +39,7 @@ const ProfileEditorView = () => {
   // Used to navigate between the "profile details"
   // and the "links" pages.
   const [ navState, setNavState ] = useState("profile")
+  const [ saveButtonState, setSaveButtonState ] = useState("Save")
   const dispatch = useDispatch()
 
   useEffect(() => {
@@ -181,7 +182,24 @@ const ProfileEditorView = () => {
       errorMessage: "between 2-100 characters"
     }
   }
-  
+
+  const handleSaveButton = async () => {
+    if (saveButtonState !== "Save") {
+      return
+    }
+
+    setSaveButtonState("Saving...")
+    try {
+      await handleSave()
+      setSaveButtonState("Saved!")
+    } catch {
+      setSaveButtonState("Something went wrong...")
+    }
+
+    setTimeout(() => {
+      setSaveButtonState("Save")
+    }, 2500)
+  }
 
   return (
     <div className="profile-editor">
@@ -205,9 +223,9 @@ const ProfileEditorView = () => {
               <h1>Tell people about yourself</h1>
               <p>Change your name and profile picture. Customize your personal Navi URL! Share an interesting fact about yourself. </p>
               <div className="profile-editor__actions">
-                <button className="outline" onClick={handleSave}>
+                <button className="outline" onClick={handleSaveButton}>
                   <RiSave3Line/>
-                  <span>Save</span>
+                  <span>{ saveButtonState }</span>
                 </button>
               </div>
             </div>
@@ -254,9 +272,9 @@ const ProfileEditorView = () => {
                 <RiAddLine/>
                 <span>Add new link</span>
               </button>
-              <button className="outline" onClick={handleSave}>
+              <button className="outline" onClick={handleSaveButton}>
                 <RiSave3Line/>
-                <span>Save</span>
+                <span>{ saveButtonState }</span>
               </button>
             </div>
 
