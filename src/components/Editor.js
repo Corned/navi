@@ -98,13 +98,13 @@ const ProfileEditorView = () => {
   }
 
   const handleSave = async () => {
-    let url = null
-
-    console.log(2);
+    let newProfilePictureUrl = null
 
     // handle profile picture upload
-    try {
-
+    // If profile.picture starts with "blob:",
+    // user is trying to upload a new profile picture.
+    if (profile?.picture.startsWith("blob:")) {
+      await fetch(profile.picture)
       const blob = await fetch(profile.picture).then(r => r.blob());
       const [ _, fileType  ] = blob.type.split("/")
       const file = new File([ blob ], `pfp.${fileType}`, { type: fileType })
@@ -114,22 +114,15 @@ const ProfileEditorView = () => {
       const profilePictureRef = ref(storage, filePath)
       
       const snapshot = await uploadBytes(profilePictureRef, file)
-      url = await getDownloadURL(snapshot.ref)
-    } catch (e) {
-      // user is NOT changing profile picture
-      console.log("User not changing pfp", e.message);
+      newProfilePictureUrl = await getDownloadURL(snapshot.ref)
     }
-  
-    console.log(2);
 
     const batch = writeBatch(firebaseDb)
-
-    console.log(3);
 
     // Check if user already has profile.
     // If profile exists, check if url has changed.
     // If it has, delete.
-      console.log("is this a thing");
+    {
       const q = query(
         collection(firebaseDb, "profiles"),
         where("uid", "==", firebaseAuth.currentUser.uid)
@@ -146,34 +139,23 @@ const ProfileEditorView = () => {
           console.log("batch delete", originalProfileUrl);
         }
       }
+    }
 
 
     if (profile.url) {
-      console.log(5);
-  
-      console.log({
-        links,
-        name: profile.name,
-        bio: profile.bio,
-        url: profile.url,
-        picture: url || profile.picture,
-        uid: firebaseAuth.currentUser.uid,
-      });
-  
       const newRef = doc(firebaseDb, "profiles", profile.url)
       batch.set(newRef, {
         links,
         name: profile.name,
         bio: profile.bio,
         url: profile.url,
-        picture: url || profile.picture,
+        picture: newProfilePictureUrl || profile.picture,
         uid: firebaseAuth.currentUser.uid,
       })
     }
 
-
     // Batch commit will fail if user tries to update
-    // profile url to existing one.
+    // profile picture to existing one?
     try {
       await batch.commit()
     } catch (error) {
