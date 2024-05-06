@@ -104,7 +104,6 @@ const ProfileEditorView = () => {
     // If profile.picture starts with "blob:",
     // user is trying to upload a new profile picture.
     if (profile?.picture.startsWith("blob:")) {
-      await fetch(profile.picture)
       const blob = await fetch(profile.picture).then(r => r.blob());
       const [ _, fileType  ] = blob.type.split("/")
       const file = new File([ blob ], `pfp.${fileType}`, { type: fileType })
@@ -161,8 +160,6 @@ const ProfileEditorView = () => {
     } catch (error) {
       console.log(error.message);
     }
-
-
   }
 
   const handleNameChange = (event) => {
