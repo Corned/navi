@@ -82,8 +82,8 @@ const ProfileEditorView = () => {
         .then((res) => {
           res.items.forEach((itemRef) => {
             getDownloadURL(itemRef)
-            .then((url) => {
-              dispatch(updateProfile({ picture: url }))
+            .then((profilePictureUrl) => {
+              dispatch(updateProfile({ picture: profilePictureUrl }))
             })
           })
         })
@@ -93,7 +93,7 @@ const ProfileEditorView = () => {
     getProfilePicture()
   }, [ ])
 
-  const handleNew = () => {
+  const handleNewLink = () => {
     dispatch(addLink())
   }
 
@@ -106,16 +106,14 @@ const ProfileEditorView = () => {
     if (profile?.picture.startsWith("blob:")) {
       const blob = await fetch(profile.picture).then(r => r.blob());
       const [ _, fileType  ] = blob.type.split("/")
-      const file = new File([ blob ], `pfp.${fileType}`, { type: fileType })
       const filePath = `pfp/${firebaseAuth.currentUser.uid}/profile_picture.${fileType}`
       
       const storage = getStorage()
       const profilePictureRef = ref(storage, filePath)
       
-      const snapshot = await uploadBytes(profilePictureRef, file)
+      const snapshot = await uploadBytes(profilePictureRef, blob)
       newProfilePictureUrl = await getDownloadURL(snapshot.ref)
     }
-
     const batch = writeBatch(firebaseDb)
 
     // Check if user already has profile.
@@ -133,9 +131,7 @@ const ProfileEditorView = () => {
       if (existingDoc?.exists()) {        
         const { url } = existingDoc.data()
         if (url && url !== profile.url) {
-          console.log(4, originalProfileUrl);
           batch.delete(doc(firebaseDb, "profiles", url))
-          console.log("batch delete", originalProfileUrl);
         }
       }
     }
@@ -178,6 +174,23 @@ const ProfileEditorView = () => {
     dispatch(updateProfile({ picture: file }))
   }
 
+  const validateUrl = (event) => {  
+    const regex = /^\w{3,32}$/gm
+    return {
+      valid: regex.test(event.target.value),
+      errorMessage: "between 3-32 alphanumeric characters"
+    }
+  }
+
+  const validateDisplayName = (event) => {
+    return {
+      valid: event.target.value.length >= 2 
+             && event.target.value.length <= 100,
+      errorMessage: "between 2-100 characters"
+    }
+  }
+  
+
   return (
     <div className="profile-editor">
       <div className="profile-editor__nav card glass shadow">
@@ -215,6 +228,7 @@ const ProfileEditorView = () => {
             <LabelInput
               label={`${window.location.origin}/`}
               onChange={handleUrlChange}
+              validate={validateUrl}
               placeholder="Your unique URL"
               value={profile.url}
             />
@@ -222,6 +236,7 @@ const ProfileEditorView = () => {
             <LabelInput
               label="Display name"
               onChange={handleNameChange}
+              validate={validateDisplayName}
               placeholder="You can call yourself anything!"
               value={profile.name}
             />
@@ -243,7 +258,7 @@ const ProfileEditorView = () => {
             <p>Add/edit/remove links below and then share all your profiles with the world!</p>
 
             <div className="profile-editor__actions">
-              <button className="outline" onClick={handleNew}>
+              <button className="outline" onClick={handleNewLink}>
                 <RiAddLine/>
                 <span>Add new link</span>
               </button>

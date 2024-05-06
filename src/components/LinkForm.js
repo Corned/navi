@@ -57,7 +57,7 @@ const LinkForm = ({ linkData }) => {
         onChange={handleUrlInput}
         placeholder="Enter your URL here"
         spellCheck="false"
-        label="https://"
+        label={`Include "https://"`}
       />
 
       <LabelInput

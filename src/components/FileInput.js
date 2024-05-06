@@ -6,7 +6,6 @@ const FileInput = ({ value, setValue }) => {
 
   const handleFile = (file) => {
     const objectUrl = URL.createObjectURL(file)
-    console.log(file, "->", objectUrl)
     setFileName(file.name)
     setValue(objectUrl)
   }

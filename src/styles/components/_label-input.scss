@@ -1,6 +1,7 @@
 
 
 .label-input {
+  position: relative;
   border-radius: $border-radius;
   background-color: $background-color;
   border: 1px solid rgba(0, 0, 0, 0.075);
@@ -10,7 +11,20 @@
   align-items: center;
   height: 50px;
 
-  p {
+  .label-input__validation-message {
+    position: absolute;
+    right: 10px;
+    color: rgba(0, 0, 0, 0.1);
+
+    &.error {
+      color: orangered;
+      font-weight: bold;
+      background-color: rgba(255, 255, 255, 0.8);
+      padding: 0 0 0 5px;
+    }
+  }
+
+  .label-input__label {
     padding: 0 10px 0 10px;
   }
 
