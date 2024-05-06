@@ -1,5 +1,5 @@
 import { useState } from "react"
-import { RiFileImageLine, RiUpload2Line } from "@remixicon/react"
+import { RiUpload2Line } from "@remixicon/react"
 
 const FileInput = ({ value, setValue }) => {
   const [ fileName, setFileName ] = useState(null)

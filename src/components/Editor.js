@@ -3,8 +3,6 @@ import { useDispatch, useSelector } from "react-redux"
 import {
   collection,
   doc,
-  setDoc,
-  getDoc,
   query,
   where,
   getDocs,
@@ -41,12 +39,6 @@ const ProfileEditorView = () => {
   // Used to navigate between the "profile details"
   // and the "links" pages.
   const [ navState, setNavState ] = useState("profile")
-
-  // State for detecting if user wants to change their
-  // profile url.
-  const [ originalProfileUrl, setOriginalProfileUrl ] = useState("")
-
-  
   const dispatch = useDispatch()
 
   useEffect(() => {
@@ -64,7 +56,6 @@ const ProfileEditorView = () => {
       if (doc?.exists()) {
         const { links, name, bio, url } = doc.data()
 
-        setOriginalProfileUrl(url)
         dispatch(updateProfile({ name, bio, url }))
         dispatch(loadLinks(links))
       }
@@ -91,7 +82,7 @@ const ProfileEditorView = () => {
 
     getProfile()
     getProfilePicture()
-  }, [ ])
+  }, [ dispatch ])
 
   const handleNewLink = () => {
     dispatch(addLink())
@@ -104,7 +95,8 @@ const ProfileEditorView = () => {
     // If profile.picture starts with "blob:",
     // user is trying to upload a new profile picture.
     if (profile?.picture.startsWith("blob:")) {
-      const blob = await fetch(profile.picture).then(r => r.blob());
+      const blob = await fetch(profile.picture).then(r => r.blob())
+      // eslint-disable-next-line
       const [ _, fileType  ] = blob.type.split("/")
       const filePath = `pfp/${firebaseAuth.currentUser.uid}/profile_picture.${fileType}`
       
@@ -194,11 +186,11 @@ const ProfileEditorView = () => {
   return (
     <div className="profile-editor">
       <div className="profile-editor__nav card glass shadow">
-        <button className={navState === "profile" && "selected"} onClick={() => setNavState("profile")}>
+        <button className={navState === "profile" ? "selected" : undefined} onClick={() => setNavState("profile")}>
           <RiProfileLine size={20} />
           <span>Profile Details</span>
         </button>
-        <button className={navState === "links" && "selected"} onClick={() => setNavState("links")}>
+        <button className={navState === "links" ? "selected" : undefined} onClick={() => setNavState("links")}>
           <RiLinksLine size={20} />
           <span>Links</span>
         </button>
